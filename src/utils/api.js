@@ -48,3 +48,9 @@ export const fetchTrendingCryptos = async () => {
     losers: losers.data.data,
   };
 };
+
+export const fetchLongShortRatios = async () => {
+  // Note: This is a placeholder API endpoint. You'll need to replace it with a real API that provides long/short ratios.
+  const response = await axios.get('https://api.example.com/long-short-ratios');
+  return response.data;
+};

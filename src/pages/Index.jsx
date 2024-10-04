@@ -4,6 +4,7 @@ import { fetchTopCryptos } from '../utils/api';
 import CryptoList from '../components/CryptoList';
 import FearGreedIndex from '../components/FearGreedIndex';
 import TrendingList from '../components/TrendingList';
+import LongShortRatios from '../components/LongShortRatios';
 
 const Index = () => {
   const { data: cryptos, isLoading, error } = useQuery({
@@ -22,6 +23,7 @@ const Index = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <FearGreedIndex />
+          <LongShortRatios />
           <CryptoList cryptos={cryptos} />
         </div>
         <div>
