@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchTopCryptos } from '../utils/api';
 import CryptoList from '../components/CryptoList';
 import FearGreedIndex from '../components/FearGreedIndex';
+import TrendingList from '../components/TrendingList';
 
 const Index = () => {
   const { data: cryptos, isLoading, error } = useQuery({
@@ -18,8 +19,15 @@ const Index = () => {
       <h1 className="text-6xl font-black mb-8 text-center uppercase bg-neo-cyan text-neo-black p-4 shadow-[8px_8px_0_0_#FF00FF] transform -skew-x-6">
         Top 200 Crypto Assets
       </h1>
-      <FearGreedIndex />
-      <CryptoList cryptos={cryptos} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <FearGreedIndex />
+          <CryptoList cryptos={cryptos} />
+        </div>
+        <div>
+          <TrendingList />
+        </div>
+      </div>
     </div>
   );
 };

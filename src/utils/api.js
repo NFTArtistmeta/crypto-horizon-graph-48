@@ -32,3 +32,19 @@ export const fetchFearGreedIndex = async () => {
   const response = await fearGreedApi.get('/fng/');
   return response.data.data[0];
 };
+
+export const fetchTrendingCryptos = async () => {
+  const [recentlyAdded, mostViewed, gainers, losers] = await Promise.all([
+    api.get('/assets?limit=5&sort=rank'),
+    api.get('/assets?limit=5&sort=volumeUsd24Hr'),
+    api.get('/assets?limit=5&sort=-changePercent24Hr'),
+    api.get('/assets?limit=5&sort=changePercent24Hr'),
+  ]);
+
+  return {
+    recentlyAdded: recentlyAdded.data.data,
+    mostViewed: mostViewed.data.data,
+    gainers: gainers.data.data,
+    losers: losers.data.data,
+  };
+};
