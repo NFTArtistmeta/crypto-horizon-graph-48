@@ -50,7 +50,17 @@ export const fetchTrendingCryptos = async () => {
 };
 
 export const fetchLongShortRatios = async () => {
-  // Note: This is a placeholder API endpoint. You'll need to replace it with a real API that provides long/short ratios.
-  const response = await axios.get('https://api.example.com/long-short-ratios');
-  return response.data;
+  // Mock data for long/short ratios
+  const mockData = [
+    { symbol: 'BTC', longPercentage: 65, shortPercentage: 35 },
+    { symbol: 'ETH', longPercentage: 55, shortPercentage: 45 },
+    { symbol: 'XRP', longPercentage: 60, shortPercentage: 40 },
+    { symbol: 'LTC', longPercentage: 52, shortPercentage: 48 },
+    { symbol: 'ADA', longPercentage: 58, shortPercentage: 42 },
+  ];
+
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  return mockData;
 };
