@@ -4,7 +4,7 @@ import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCryptoHistory } from '../utils/api';
 
-const CryptoListItem = ({ crypto, rank, interestRate }) => {
+const CryptoListItem = ({ crypto, rank }) => {
   const { data: history } = useQuery({
     queryKey: ['cryptoHistory', crypto.id],
     queryFn: () => fetchCryptoHistory(crypto.id),
@@ -30,11 +30,10 @@ const CryptoListItem = ({ crypto, rank, interestRate }) => {
         </span>
         <span className="text-lg font-semibold text-neo-magenta">{crypto.fundingRate.toFixed(4)}%</span>
       </div>
-      <div className="grid grid-cols-4 gap-2 text-sm text-neo-white">
+      <div className="grid grid-cols-3 gap-2 text-sm text-neo-white">
         <p>Volume(24h): ${formatNumber(parseFloat(crypto.volumeUsd24Hr))}</p>
         <p>Market Cap: ${formatNumber(parseFloat(crypto.marketCapUsd))}</p>
         <p>OI Delta: ${formatNumber(crypto.oiDelta)}</p>
-        <p>Interest Rate: {interestRate ? `${interestRate}%` : 'N/A'}</p>
       </div>
       <div className="mt-2 h-16">
         <ResponsiveContainer width="100%" height="100%">
@@ -47,20 +46,12 @@ const CryptoListItem = ({ crypto, rank, interestRate }) => {
   );
 };
 
-const CryptoList = ({ cryptos, interestRates }) => {
+const CryptoList = ({ cryptos }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {cryptos.map((crypto, index) => {
-        const interestRate = interestRates.find(rate => rate.asset === crypto.symbol)?.avgAnnualInterestRate;
-        return (
-          <CryptoListItem
-            key={crypto.id}
-            crypto={crypto}
-            rank={index + 1}
-            interestRate={interestRate}
-          />
-        );
-      })}
+      {cryptos.map((crypto, index) => (
+        <CryptoListItem key={crypto.id} crypto={crypto} rank={index + 1} />
+      ))}
     </div>
   );
 };

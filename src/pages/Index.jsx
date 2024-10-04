@@ -1,24 +1,19 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchTopCryptos, fetchBinanceInterestRates } from '../utils/api';
+import { fetchTopCryptos } from '../utils/api';
 import CryptoList from '../components/CryptoList';
 import FearGreedIndex from '../components/FearGreedIndex';
 import TrendingList from '../components/TrendingList';
 import LongShortRatios from '../components/LongShortRatios';
 
 const Index = () => {
-  const { data: cryptos, isLoading: cryptosLoading, error: cryptosError } = useQuery({
+  const { data: cryptos, isLoading, error } = useQuery({
     queryKey: ['topCryptos'],
     queryFn: fetchTopCryptos,
   });
 
-  const { data: interestRates, isLoading: interestRatesLoading, error: interestRatesError } = useQuery({
-    queryKey: ['binanceInterestRates'],
-    queryFn: fetchBinanceInterestRates,
-  });
-
-  if (cryptosLoading || interestRatesLoading) return <div className="text-4xl font-bold text-center mt-20 text-neo-cyan">Loading...</div>;
-  if (cryptosError || interestRatesError) return <div className="text-4xl font-bold text-center mt-20 text-neo-magenta">Error: {cryptosError?.message || interestRatesError?.message}</div>;
+  if (isLoading) return <div className="text-4xl font-bold text-center mt-20 text-neo-cyan">Loading...</div>;
+  if (error) return <div className="text-4xl font-bold text-center mt-20 text-neo-magenta">Error: {error.message}</div>;
 
   return (
     <div className="min-h-screen bg-neo-black p-8">
@@ -29,20 +24,10 @@ const Index = () => {
         <div className="lg:col-span-2">
           <FearGreedIndex />
           <LongShortRatios />
-          <CryptoList cryptos={cryptos} interestRates={interestRates} />
+          <CryptoList cryptos={cryptos} />
         </div>
         <div>
           <TrendingList />
-          <div className="bg-neo-black p-4 rounded-lg border-2 border-neo-cyan mt-8">
-            <h2 className="text-2xl font-bold mb-4 text-neo-yellow">Binance Interest Rates</h2>
-            <ul>
-              {interestRates.map((rate) => (
-                <li key={rate.asset} className="text-neo-white mb-2">
-                  {rate.asset}: {rate.avgAnnualInterestRate}%
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </div>
