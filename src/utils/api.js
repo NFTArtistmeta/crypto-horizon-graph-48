@@ -1,5 +1,4 @@
 import axios from 'axios';
-import crypto from 'crypto';
 
 const api = axios.create({
   baseURL: 'https://api.coincap.io/v2',
@@ -90,16 +89,30 @@ export const fetchBinanceInterestRates = async () => {
   const apiSecret = import.meta.env.VITE_BINANCE_API_SECRET;
 
   const queryString = `timestamp=${timestamp}`;
-  const signature = crypto
-    .createHmac('sha256', apiSecret)
-    .update(queryString)
-    .digest('hex');
+  
+  // Use Web Crypto API to generate HMAC signature
+  const encoder = new TextEncoder();
+  const key = await window.crypto.subtle.importKey(
+    'raw',
+    encoder.encode(apiSecret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const signature = await window.crypto.subtle.sign(
+    'HMAC',
+    key,
+    encoder.encode(queryString)
+  );
+  const signatureHex = Array.from(new Uint8Array(signature))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
 
   try {
     const response = await binanceApi.get('/sapi/v1/lending/daily/token/position', {
       params: {
         timestamp,
-        signature,
+        signature: signatureHex,
       },
       headers: {
         'X-MBX-APIKEY': apiKey,
