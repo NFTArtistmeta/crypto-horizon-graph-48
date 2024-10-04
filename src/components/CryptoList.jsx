@@ -4,28 +4,36 @@ import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCryptoHistory } from '../utils/api';
 
-const CryptoListItem = ({ crypto }) => {
+const CryptoListItem = ({ crypto, rank }) => {
   const { data: history } = useQuery({
     queryKey: ['cryptoHistory', crypto.id],
     queryFn: () => fetchCryptoHistory(crypto.id),
   });
+
+  const formatNumber = (num, decimals = 2) => {
+    if (Math.abs(num) >= 1e9) return (num / 1e9).toFixed(decimals) + 'B';
+    if (Math.abs(num) >= 1e6) return (num / 1e6).toFixed(decimals) + 'M';
+    if (Math.abs(num) >= 1e3) return (num / 1e3).toFixed(decimals) + 'K';
+    return num.toFixed(decimals);
+  };
 
   return (
     <Link
       to={`/crypto/${crypto.id}`}
       className="bg-neo-black p-4 rounded-lg border-2 border-neo-cyan hover:border-neo-magenta transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
     >
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-bold text-neo-cyan">{crypto.name}</h2>
+      <div className="grid grid-cols-4 gap-2 mb-2">
+        <h2 className="text-xl font-bold text-neo-cyan">{rank}. {crypto.symbol}</h2>
         <span className="text-lg font-semibold text-neo-yellow">${parseFloat(crypto.priceUsd).toFixed(2)}</span>
+        <span className={`text-lg font-semibold ${crypto.changePercent24Hr > 0 ? 'text-green-400' : 'text-red-400'}`}>
+          {parseFloat(crypto.changePercent24Hr).toFixed(2)}%
+        </span>
+        <span className="text-lg font-semibold text-neo-magenta">{crypto.fundingRate.toFixed(4)}%</span>
       </div>
-      <div className="grid grid-cols-2 gap-2 text-sm text-neo-white">
-        <p>1h: <span className={crypto.changePercent1Hr > 0 ? 'text-green-400' : 'text-red-400'}>{parseFloat(crypto.changePercent1Hr).toFixed(2)}%</span></p>
-        <p>24h: <span className={crypto.changePercent24Hr > 0 ? 'text-green-400' : 'text-red-400'}>{parseFloat(crypto.changePercent24Hr).toFixed(2)}%</span></p>
-        <p>7d: <span className={crypto.changePercent7d > 0 ? 'text-green-400' : 'text-red-400'}>{parseFloat(crypto.changePercent7d).toFixed(2)}%</span></p>
-        <p>Market Cap: ${parseFloat(crypto.marketCapUsd).toLocaleString()}</p>
-        <p>Volume(24h): ${parseFloat(crypto.volumeUsd24Hr).toLocaleString()}</p>
-        <p>Circulating Supply: {parseFloat(crypto.supply).toLocaleString()} {crypto.symbol}</p>
+      <div className="grid grid-cols-3 gap-2 text-sm text-neo-white">
+        <p>Volume(24h): ${formatNumber(parseFloat(crypto.volumeUsd24Hr))}</p>
+        <p>Market Cap: ${formatNumber(parseFloat(crypto.marketCapUsd))}</p>
+        <p>OI Delta: ${formatNumber(crypto.oiDelta)}</p>
       </div>
       <div className="mt-2 h-16">
         <ResponsiveContainer width="100%" height="100%">
@@ -41,8 +49,8 @@ const CryptoListItem = ({ crypto }) => {
 const CryptoList = ({ cryptos }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {cryptos.map((crypto) => (
-        <CryptoListItem key={crypto.id} crypto={crypto} />
+      {cryptos.map((crypto, index) => (
+        <CryptoListItem key={crypto.id} crypto={crypto} rank={index + 1} />
       ))}
     </div>
   );

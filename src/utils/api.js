@@ -10,7 +10,11 @@ const fearGreedApi = axios.create({
 
 export const fetchTopCryptos = async () => {
   const response = await api.get('/assets?limit=200');
-  return response.data.data;
+  return response.data.data.map(crypto => ({
+    ...crypto,
+    fundingRate: Math.random() * 0.002 - 0.001, // Mock funding rate (between -0.1% and 0.1%)
+    oiDelta: Math.random() * 2000000000 - 1000000000, // Mock OI delta (between -1B and 1B)
+  }));
 };
 
 export const fetchCryptoDetails = async (id) => {
