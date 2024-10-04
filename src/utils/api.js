@@ -1,4 +1,5 @@
 import axios from 'axios';
+import crypto from 'crypto';
 
 const api = axios.create({
   baseURL: 'https://api.coincap.io/v2',
@@ -6,6 +7,10 @@ const api = axios.create({
 
 const fearGreedApi = axios.create({
   baseURL: 'https://api.alternative.me',
+});
+
+const binanceApi = axios.create({
+  baseURL: 'https://api.binance.com',
 });
 
 export const fetchTopCryptos = async () => {
@@ -77,4 +82,32 @@ export const fetchLongShortRatios = async () => {
   await new Promise(resolve => setTimeout(resolve, 500));
 
   return mockData;
+};
+
+export const fetchBinanceInterestRates = async () => {
+  const timestamp = Date.now();
+  const apiKey = import.meta.env.VITE_BINANCE_API_KEY;
+  const apiSecret = import.meta.env.VITE_BINANCE_API_SECRET;
+
+  const queryString = `timestamp=${timestamp}`;
+  const signature = crypto
+    .createHmac('sha256', apiSecret)
+    .update(queryString)
+    .digest('hex');
+
+  try {
+    const response = await binanceApi.get('/sapi/v1/lending/daily/token/position', {
+      params: {
+        timestamp,
+        signature,
+      },
+      headers: {
+        'X-MBX-APIKEY': apiKey,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching Binance interest rates:', error);
+    throw error;
+  }
 };
