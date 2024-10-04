@@ -15,15 +15,34 @@ const LongShortRatios = () => {
   return (
     <div className="bg-neo-black p-4 rounded-lg border-2 border-neo-cyan mb-8">
       <h2 className="text-2xl font-bold mb-4 text-neo-yellow">Long vs. Short Ratios</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {ratios.map((ratio) => (
-          <div key={ratio.symbol} className="bg-neo-black p-2 rounded border border-neo-magenta">
-            <h3 className="text-neo-cyan font-bold">{ratio.symbol}</h3>
-            <p className="text-neo-white">Long: {ratio.longPercentage.toFixed(2)}%</p>
-            <p className="text-neo-white">Short: {ratio.shortPercentage.toFixed(2)}%</p>
+      {ratios.map((ratio) => (
+        <div key={ratio.symbol} className="mb-6">
+          <h3 className="text-xl font-bold text-neo-cyan mb-2">{ratio.symbol} Long/Short Ratio</h3>
+          <div className="grid grid-cols-5 gap-2 mb-2 text-sm font-bold text-neo-white">
+            <div>Exchange</div>
+            <div>Long %</div>
+            <div>Short %</div>
+            <div>Long Volume</div>
+            <div>Short Volume</div>
           </div>
-        ))}
-      </div>
+          {ratio.exchanges.map((exchange) => (
+            <div key={exchange.name} className="grid grid-cols-5 gap-2 text-sm text-neo-white">
+              <div>{exchange.name}</div>
+              <div>{exchange.longPercentage.toFixed(2)}%</div>
+              <div>{exchange.shortPercentage.toFixed(2)}%</div>
+              <div>{exchange.longVolume.toFixed(2)}</div>
+              <div>{exchange.shortVolume.toFixed(2)}</div>
+            </div>
+          ))}
+          <div className="grid grid-cols-5 gap-2 mt-2 text-sm font-bold text-neo-yellow">
+            <div>Total</div>
+            <div>{ratio.totalLongPercentage.toFixed(2)}%</div>
+            <div>{ratio.totalShortPercentage.toFixed(2)}%</div>
+            <div>{ratio.totalLongVolume.toFixed(2)}</div>
+            <div>{ratio.totalShortVolume.toFixed(2)}</div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

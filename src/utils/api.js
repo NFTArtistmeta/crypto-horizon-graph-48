@@ -50,13 +50,23 @@ export const fetchTrendingCryptos = async () => {
 };
 
 export const fetchLongShortRatios = async () => {
-  // Mock data for long/short ratios
+  // Mock data for long/short ratios with exchange-specific information
   const mockData = [
-    { symbol: 'BTC', longPercentage: 65, shortPercentage: 35 },
-    { symbol: 'ETH', longPercentage: 55, shortPercentage: 45 },
-    { symbol: 'XRP', longPercentage: 60, shortPercentage: 40 },
-    { symbol: 'LTC', longPercentage: 52, shortPercentage: 48 },
-    { symbol: 'ADA', longPercentage: 58, shortPercentage: 42 },
+    { 
+      symbol: 'BTC',
+      exchanges: [
+        { name: 'Binance', longPercentage: 53.38, shortPercentage: 46.62, longVolume: 433.62, shortVolume: 378.53 },
+        { name: 'Bybit', longPercentage: 50.94, shortPercentage: 49.06, longVolume: 227.38, shortVolume: 219.01 },
+        { name: 'OKX', longPercentage: 49.2, shortPercentage: 50.8, longVolume: 60.72, shortVolume: 62.69 },
+        { name: 'Huobi', longPercentage: 55.72, shortPercentage: 44.28, longVolume: 30.48, shortVolume: 24.23 },
+        { name: 'Gate.io', longPercentage: 48.97, shortPercentage: 51.03, longVolume: 3.67, shortVolume: 3.82 },
+      ],
+      totalLongPercentage: 51.84,
+      totalShortPercentage: 48.16,
+      totalLongVolume: 755.87,
+      totalShortVolume: 688.28,
+    },
+    // You can add more cryptocurrencies here if needed
   ];
 
   // Simulate API delay
