@@ -11,6 +11,7 @@ const LongShortRatios = () => {
 
   if (isLoading) return <div className="text-neo-cyan">Loading Long/Short Ratios...</div>;
   if (error) return <div className="text-neo-magenta">Error fetching Long/Short Ratios</div>;
+  if (!ratios || ratios.length === 0) return <div className="text-neo-yellow">No Long/Short Ratio data available</div>;
 
   return (
     <div className="bg-neo-black p-4 rounded-lg border-2 border-neo-cyan mb-8">
@@ -25,7 +26,7 @@ const LongShortRatios = () => {
             <div>Long Volume</div>
             <div>Short Volume</div>
           </div>
-          {ratio.exchanges.map((exchange) => (
+          {ratio.exchanges && ratio.exchanges.map((exchange) => (
             <div key={exchange.name} className="grid grid-cols-5 gap-2 text-sm text-neo-white">
               <div>{exchange.name}</div>
               <div>{exchange.longPercentage.toFixed(2)}%</div>
