@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://run.gptengineer.app/projects/a9b06cc2-6cd6-4b2d-8073-84e5b76dd147/improve
+**URL**: https://crypto-horizon-graph-48.gptengineer.run/
 
 ## How can I edit this code?
 
