@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-yellow-200 p-8">
       <h1 className="text-6xl font-black mb-8 text-center uppercase bg-black text-white p-4 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-        Crypto Assets Overview
+        Top 200 Crypto Assets
       </h1>
       <CryptoList cryptos={cryptos} />
     </div>
