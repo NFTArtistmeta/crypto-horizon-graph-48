@@ -39,8 +39,8 @@ export const fetchFearGreedIndex = async () => {
 
 export const fetchTrendingCryptos = async () => {
   const [recentlyAdded, mostViewed, gainers, losers] = await Promise.all([
-    api.get('/assets?limit=5&sort=rank'),
-    api.get('/assets?limit=5&sort=volumeUsd24Hr'),
+    api.get('/assets?limit=5&sort=-dateAdded'), // Changed to sort by dateAdded in descending order
+    api.get('/assets?limit=5&sort=-volumeUsd24Hr'),
     api.get('/assets?limit=5&sort=-changePercent24Hr'),
     api.get('/assets?limit=5&sort=changePercent24Hr'),
   ]);
