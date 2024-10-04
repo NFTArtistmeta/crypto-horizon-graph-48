@@ -16,29 +16,29 @@ const CryptoDetails = () => {
     queryFn: () => fetchCryptoHistory(id),
   });
 
-  if (isLoadingCrypto || isLoadingHistory) return <div className="text-4xl font-bold text-center mt-20">Loading...</div>;
-  if (cryptoError || historyError) return <div className="text-4xl font-bold text-center mt-20 text-red-600">Error: {cryptoError?.message || historyError?.message}</div>;
+  if (isLoadingCrypto || isLoadingHistory) return <div className="text-4xl font-bold text-center mt-20 text-neo-cyan">Loading...</div>;
+  if (cryptoError || historyError) return <div className="text-4xl font-bold text-center mt-20 text-neo-magenta">Error: {cryptoError?.message || historyError?.message}</div>;
 
   return (
-    <div className="min-h-screen bg-pink-200 p-8">
-      <h1 className="text-6xl font-black mb-8 text-center uppercase bg-black text-white p-4 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
+    <div className="min-h-screen bg-neo-black p-8">
+      <h1 className="text-6xl font-black mb-8 text-center uppercase bg-neo-magenta text-neo-black p-4 shadow-[8px_8px_0_0_#00FFFF] transform -skew-x-6">
         {crypto.name} ({crypto.symbol})
       </h1>
-      <div className="bg-white p-6 rounded-lg shadow-[8px_8px_0_0_rgba(0,0,0,1)] mb-8">
-        <p className="text-2xl font-bold mb-4">Current Price: ${parseFloat(crypto.priceUsd).toFixed(2)}</p>
-        <p className="text-xl mb-2">Rank: {crypto.rank}</p>
-        <p className="text-xl mb-2">Market Cap: ${parseFloat(crypto.marketCapUsd).toLocaleString()}</p>
-        <p className="text-xl mb-2">24h Volume: ${parseFloat(crypto.volumeUsd24Hr).toLocaleString()}</p>
-        <p className="text-xl">Supply: {parseFloat(crypto.supply).toLocaleString()} {crypto.symbol}</p>
+      <div className="bg-neo-black p-6 rounded-lg border-2 border-neo-cyan mb-8">
+        <p className="text-2xl font-bold mb-4 text-neo-yellow">Current Price: ${parseFloat(crypto.priceUsd).toFixed(2)}</p>
+        <p className="text-xl mb-2 text-neo-white">Rank: {crypto.rank}</p>
+        <p className="text-xl mb-2 text-neo-white">Market Cap: ${parseFloat(crypto.marketCapUsd).toLocaleString()}</p>
+        <p className="text-xl mb-2 text-neo-white">24h Volume: ${parseFloat(crypto.volumeUsd24Hr).toLocaleString()}</p>
+        <p className="text-xl text-neo-white">Supply: {parseFloat(crypto.supply).toLocaleString()} {crypto.symbol}</p>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-        <h2 className="text-3xl font-bold mb-4">Price History (Last 7 Days)</h2>
+      <div className="bg-neo-black p-6 rounded-lg border-2 border-neo-magenta">
+        <h2 className="text-3xl font-bold mb-4 text-neo-cyan">Price History (Last 7 Days)</h2>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={history}>
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="priceUsd" stroke="#8884d8" strokeWidth={2} />
+            <XAxis dataKey="date" stroke="#FFFFFF" />
+            <YAxis stroke="#FFFFFF" />
+            <Tooltip contentStyle={{ backgroundColor: '#000000', border: '1px solid #00FFFF' }} />
+            <Line type="monotone" dataKey="priceUsd" stroke="#FF00FF" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </div>

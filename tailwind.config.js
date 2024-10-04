@@ -51,10 +51,12 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Neo brutalist colors
+        // Futuristic neo-brutalist colors
+        'neo-cyan': '#00FFFF',
+        'neo-magenta': '#FF00FF',
         'neo-yellow': '#FFFF00',
-        'neo-pink': '#FF69B4',
-        'neo-blue': '#1E90FF',
+        'neo-black': '#000000',
+        'neo-white': '#FFFFFF',
       },
       borderRadius: {
         lg: "var(--radius)",

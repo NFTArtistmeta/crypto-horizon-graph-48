@@ -9,12 +9,12 @@ const Index = () => {
     queryFn: fetchTopCryptos,
   });
 
-  if (isLoading) return <div className="text-4xl font-bold text-center mt-20">Loading...</div>;
-  if (error) return <div className="text-4xl font-bold text-center mt-20 text-red-600">Error: {error.message}</div>;
+  if (isLoading) return <div className="text-4xl font-bold text-center mt-20 text-neo-cyan">Loading...</div>;
+  if (error) return <div className="text-4xl font-bold text-center mt-20 text-neo-magenta">Error: {error.message}</div>;
 
   return (
-    <div className="min-h-screen bg-yellow-200 p-8">
-      <h1 className="text-6xl font-black mb-8 text-center uppercase bg-black text-white p-4 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
+    <div className="min-h-screen bg-neo-black p-8">
+      <h1 className="text-6xl font-black mb-8 text-center uppercase bg-neo-cyan text-neo-black p-4 shadow-[8px_8px_0_0_#FF00FF] transform -skew-x-6">
         Top 200 Crypto Assets
       </h1>
       <CryptoList cryptos={cryptos} />
