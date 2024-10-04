@@ -4,6 +4,10 @@ const api = axios.create({
   baseURL: 'https://api.coincap.io/v2',
 });
 
+const fearGreedApi = axios.create({
+  baseURL: 'https://api.alternative.me',
+});
+
 export const fetchTopCryptos = async () => {
   const response = await api.get('/assets?limit=200');
   return response.data.data;
@@ -22,4 +26,9 @@ export const fetchCryptoHistory = async (id, interval = 'd1') => {
     date: new Date(item.time).toLocaleDateString(),
     priceUsd: parseFloat(item.priceUsd),
   }));
+};
+
+export const fetchFearGreedIndex = async () => {
+  const response = await fearGreedApi.get('/fng/');
+  return response.data.data[0];
 };
